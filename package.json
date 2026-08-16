@@ -1,0 +1,31 @@
+{
+  "name": "devcommunity",
+  "version": "1.0.0",
+  "main": "server/index.js",
+  "type": "module",
+  "imports": {
+    "#server/*": "./server/*"
+  },
+  "scripts": {
+    "start": "node --env-file=.env server",
+    "start:watch": "nodemon --exec \"node --env-file=.env\" server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "gravatar": "^1.8.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongodb": "^6.21.0",
+    "mongoose": "^8.24.3",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
