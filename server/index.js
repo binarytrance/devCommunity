@@ -11,6 +11,18 @@ const app = express();
 // Connect Database
 connectDB();
 
+//Init middleware
+
+// registers built-in middleware that parses incoming request bodies as JSON
+app.use(express.json());
+
+/**
+- express.json() returns a middleware function. app.use(...) with no path prefix registers it globally, so it runs on every incoming request, before your route handlers.
+- What it does: if a request has Content-Type: application/json, it reads the raw request body stream, parses it as JSON, and attaches the result to req.body. Without this, 
+  req.body would be undefined in your route handlers even if the client sent a JSON payload.
+- This is essential once you build POST/PUT routes (e.g. registering a user with { name, email, password } in the body) — without it, auth.js/users.js couldn't read what the client sent.
+*/
+
 app.get("/", (req, res) => res.send("API running")); // health check
 
 app.use("/api/users", users);
