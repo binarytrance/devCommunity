@@ -4,6 +4,7 @@ import User from "../../models/Users.js";
 const router = express.Router();
 import bcrypt from "bcryptjs";
 import gravatar from "gravatar";
+import jwt from "jsonwebtoken";
 
 const validations = [
   check("name", "Name is required").not().isEmpty(),
@@ -46,6 +47,7 @@ router.post("/", validations, async (req, res) => {
       d: "mm", //default image
     });
 
+    // Create the user
     user = new User({
       name,
       email,
@@ -59,9 +61,28 @@ router.post("/", validations, async (req, res) => {
 
     // save user to db
     await user.save();
-    // Return jsonwebtoken
 
-    res.send("User created");
+    // get the payload which includes the user id
+    const payload = {
+      user: {
+        id: user.id,
+      },
+    };
+
+    // sign the token
+    jwt.sign(
+      payload,
+      process.env.jwtSecret, // secret
+      { expiresIn: 360000 }, // optional, TODO: set a smaller value before deploying
+      (err, token) => {
+        if (err) throw err;
+        // Return jsonwebtoken
+        res.json({ token });
+      },
+    );
+    console.log(process.env.jwtSecret);
+
+    // res.send("User created");
   } catch (error) {
     // server error
     console.error(error.message);
