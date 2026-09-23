@@ -6,7 +6,9 @@ import bcrypt from "bcryptjs";
 import gravatar from "gravatar";
 import jwt from "jsonwebtoken";
 
-const validations = [
+// express validator
+// For catching invalid data early with middleware, you keep your controller logic clean and prevent unnecessary database operations.
+export const validations = [
   check("name", "Name is required").not().isEmpty(),
   check("email", "Please include a valid email").isEmail(),
   check(
@@ -57,7 +59,7 @@ router.post("/", validations, async (req, res) => {
 
     // Encrypt password
     const salt = await bcrypt.genSalt(10);
-    user.pasword = await bcrypt.hash(password, salt);
+    user.password = await bcrypt.hash(password, salt);
 
     // save user to db
     await user.save();
