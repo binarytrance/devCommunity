@@ -1,5 +1,5 @@
 import authMiddleware from "#server/middleware/auth.js";
-import Users from "#server/models/Users.js";
+import User from "#server/models/User.js";
 import express from "express";
 import { check, validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
@@ -16,7 +16,7 @@ export const loginValidations = [
 router.get("/", authMiddleware, async (req, res) => {
   // res.send("auth route");
   try {
-    const user = await Users.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id).select("-password");
     res.json(user);
   } catch (error) {
     console.error(error.message);
@@ -44,7 +44,7 @@ router.post("/", loginValidations, async (req, res) => {
   try {
     // See if the user exists
 
-    let user = await Users.findOne({ email });
+    let user = await User.findOne({ email });
 
     if (!user) {
       return res

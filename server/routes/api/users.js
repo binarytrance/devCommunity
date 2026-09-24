@@ -1,6 +1,6 @@
 import express from "express";
 import { check, validationResult } from "express-validator";
-import User from "../../models/Users.js";
+import User from "../../models/User.js";
 const router = express.Router();
 import bcrypt from "bcryptjs";
 import gravatar from "gravatar";
